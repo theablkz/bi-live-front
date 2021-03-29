@@ -142,7 +142,8 @@ export default {
         .filter(
           (item) =>
             (this.cityValue ? item.city === this.cityValue : true) &&
-            (this.classValue ? item.class === this.classValue : true)
+            (this.classValue ? item.class === this.classValue : true) &&
+            (item.active)
         )
         .slice(0, this.limit)
     },
