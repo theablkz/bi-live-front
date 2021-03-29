@@ -39,7 +39,7 @@
             Узнайте первым о старте реализации!
           </p>
         </div>
-        <a target='_blank' class='go-to-site' href="/">Перейти на сайт </a>
+        <a target='_blank' class='go-to-site' href="https://bi.group/ru/filter">Перейти на сайт </a>
       </div>
     </div>
     <p class='secondary'>Электронные версии буклетов представлены не на все жилые комплексы</p>
