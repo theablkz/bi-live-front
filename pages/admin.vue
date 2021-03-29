@@ -41,6 +41,7 @@
             <p>{{ item.city }}</p>
             <p>{{ item.class }}</p>
             <p>{{ item.link }}</p>
+            <p>активность: {{!!item.active}}</p>
             <a target="_blank" :href="`${baseUrl}/get-buklet/${item.buklet}`">{{ item.buklet }}</a>
             <button @click='deleteBuild(item.id)' class='button_red'>Удалить</button>
           </div>

@@ -162,7 +162,7 @@ export default {
 <style lang="scss" scoped>
 
 .title-box {
-  margin-bottom: 80px;
+  margin-bottom: 20px;
   margin-top: 80px;
   .title {
     color: #01152c;
