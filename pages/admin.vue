@@ -14,9 +14,11 @@
           <input v-model='insertForm.link' type="text" placeholder="ссылка на сайт" />
           <select v-model='insertForm.class'>
             <option disabled selected :value='null'>Класс</option>
-            <option value="Премиум">Премиум</option>
-            <option value="Бизнес">Бизнес</option>
+            <option value="Стандарт">Стандарт</option>
             <option value="Комфорт">Комфорт</option>
+            <option value="Бизнес">Бизнес</option>
+            <option value="Премиум">Премиум</option>
+
           </select>
           <select v-model='insertForm.city'>
             <option disabled selected :value='null'>Город</option>

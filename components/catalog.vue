@@ -81,6 +81,7 @@
                     premium: item.class === 'Премиум',
                     comfort: item.class === 'Комфорт',
                     business: item.class === 'Бизнес',
+                    standard: item.class === 'Стандарт',
                   }"
                   >{{ item.class }}</span
                 >
@@ -137,8 +138,19 @@ export default {
     cities() {
       return [...new Set(this.builds.map((item) => item.city))]
     },
+
+    sortBuilds(){
+      return [
+        ...this.sortByClass(this.builds.filter(item => item.city === "Нур-Султан")),
+        ...this.sortByClass(this.builds.filter(item => item.city === "Алматы")),
+        ...this.sortByClass(this.builds.filter(item => item.city === "Шымкент")),
+        ...this.sortByClass(this.builds.filter(item => item.city === "Атырау")),
+        ...this.sortByClass(this.builds.filter(item => item.city === "Актау")),
+      ]
+    },
     filters() {
-      return this.builds
+
+      return this.sortBuilds
         .filter(
           (item) =>
             (this.cityValue ? item.city === this.cityValue : true) &&
@@ -149,6 +161,16 @@ export default {
     },
     baseUrl(){
       return baseUrl
+    }
+  },
+  methods: {
+    sortByClass(arr){
+      return [
+        ...arr.filter(item => item.class === 'Стандарт'),
+        ...arr.filter(item => item.class === 'Комфорт'),
+        ...arr.filter(item => item.class === 'Бизнес'),
+        ...arr.filter(item => item.class === 'Премиум'),
+      ]
     }
   },
   created() {
@@ -187,7 +209,6 @@ export default {
   color: #01152c;
   opacity: 0.6;
   font-size: 14px;
-
 }
 .filter-box {
   display: grid;
@@ -288,6 +309,9 @@ export default {
             }
             &.business {
               background: #01152c;
+            }
+            &.standard{
+              background: #004b94;
             }
           }
         }
