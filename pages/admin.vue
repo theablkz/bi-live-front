@@ -20,8 +20,11 @@
           </select>
           <select v-model='insertForm.city'>
             <option disabled selected :value='null'>Город</option>
-            <option value="Алматы">Алматы</option>
             <option value="Нур-Султан">Нур-Султан</option>
+            <option value="Алматы">Алматы</option>
+            <option value="Шымкент">Шымкент</option>
+            <option value="Атырау">Атырау</option>
+            <option value="Актау">Актау</option>
           </select>
           <p>Буклет</p>
           <input type="file" @input="inputBuklet" placeholder="Буклет" />

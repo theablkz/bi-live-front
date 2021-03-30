@@ -51,7 +51,7 @@
               />
             </svg>
             <ul v-if="selectsClass">
-              <li @click="classValue = null">Все города</li>
+              <li @click="classValue = null">Все классы</li>
               <li
                 v-for="item in classes"
                 :key="item"
