@@ -66,7 +66,7 @@
     </div>
     <div class="grid-col_1-11">
       <div class="build-card-box">
-        <div v-for="item in filters" :key="item.id" class="build-card">
+        <div v-for="item in filters.slice(0, this.limit)" :key="item.id" class="build-card">
           <a class="card-link" target="_blank" :href="item.link">
             <div class="card-link-box">
               <div class="image-box">
@@ -110,7 +110,7 @@
     <div v-if='!filters.length' class="grid-col_1-11 no-content">
       <p>Нет данных</p>
     </div>
-    <div v-if='filters.length > limit' @click='limit = limit + 6' class="grid-col_1-11 view-more">
+    <div v-if="filters.length > limit" @click='limit = limit + 6' class="grid-col_1-11 view-more">
       <p>Показать еще</p>
     </div>
   </div>
@@ -149,7 +149,6 @@ export default {
       ]
     },
     filters() {
-
       return this.sortBuilds
         .filter(
           (item) =>
@@ -157,7 +156,6 @@ export default {
             (this.classValue ? item.class === this.classValue : true) &&
             (item.active)
         )
-        .slice(0, this.limit)
     },
     baseUrl(){
       return baseUrl
