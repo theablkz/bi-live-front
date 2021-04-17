@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div v-if='!login'>
-      <form @submit.prevent='loginSubmit'>
-        <input type='text' placeholder='login' v-model='loginValue.login'>
-        <input type='password' placeholder='password' v-model='loginValue.password'>
+    <div v-if='!papaRoach'>
+      <form @submit.prevent='dell'>
+        <input type='text' placeholder='login' v-model='trueValue.upAndDown'>
+        <input type='password' placeholder='password' v-model='trueValue.jackNumber'>
         <input type='submit'>
       </form>
     </div>
-    <div v-if='login' class="grid">
+    <div v-if='papaRoach' class="grid">
       <div class="grid-col_1-6">
         <form @submit.prevent="submit">
           <input v-model='insertForm.name' type="text" placeholder="имя жк" />
@@ -58,19 +58,20 @@
 
 <script>
 import { baseUrl } from '~/assets/config'
+import { Base64 } from 'js-base64';
 
 export default {
   name: 'admin',
   data: () => ({
-    loginData: {
-      login: 'admin',
-      password: 'gfhfijqpfgf[kj'
+    hoverParagraph: {
+      upAndDown: 'YWRtaW4=',
+      jackNumber: 'Z2ZoZmlqcXBmZ2Zba2o='
     },
-    loginValue: {
-      login: '',
-      password: ''
+    trueValue: {
+      upAndDown: '',
+      jackNumber: ''
     },
-    login: false,
+    papaRoach: false,
     builds: [],
     insertForm: {
       name: '',
@@ -84,9 +85,9 @@ export default {
     errorInsertForm: false,
   }),
   methods: {
-    loginSubmit(){
-      if (this.loginValue.login === this.loginData.login && this.loginValue.password === this.loginData.password){
-        this.login = true
+    dell(){
+      if (Base64.encode(this.trueValue.upAndDown) === this.hoverParagraph.upAndDown && Base64.encode(this.trueValue.jackNumber) === this.hoverParagraph.jackNumber){
+        this.papaRoach = true
       }
     },
     submit() {
