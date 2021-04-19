@@ -65,7 +65,7 @@ export default {
   data: () => ({
     hoverParagraph: {
       upAndDown: 'YWRtaW4=',
-      jackNumber: 'Z2ZoZmlqcXBmZ2Zba2o='
+      jackNumber: 'S2VnJDdSc1l1V1Q4'
     },
     trueValue: {
       upAndDown: '',
