@@ -1,4 +1,4 @@
-const baseUrl = 'https://catalog-api.bi.group'
+const baseUrl = 'http://localhost:3010'
 
 export {
   baseUrl

@@ -13,12 +13,11 @@
           <input v-model='insertForm.name' type="text" placeholder="имя жк" />
           <input v-model='insertForm.link' type="text" placeholder="ссылка на сайт" />
           <select v-model='insertForm.class'>
-            <option disabled selected :value='null'>Класс</option>
+            <option disabled selected :value='null'>Класс (не обязательно)</option>
             <option value="Стандарт">Стандарт</option>
             <option value="Комфорт">Комфорт</option>
             <option value="Бизнес">Бизнес</option>
             <option value="Премиум">Премиум</option>
-
           </select>
           <select v-model='insertForm.city'>
             <option disabled selected :value='null'>Город</option>
@@ -28,12 +27,11 @@
             <option value="Атырау">Атырау</option>
             <option value="Актау">Актау</option>
           </select>
-          <p>Буклет</p>
-          <input type="file" @input="inputBuklet" placeholder="Буклет" />
+          <input v-model='insertForm.translation' type='text' placeholder='Онлайн трансляция (ссылка)'>
+          <input v-model='insertForm.around' type='text' placeholder='360 панорама (ссылка)'>
+          <input v-model="insertForm['3d']" type='text' placeholder='3D шоурум (ссылка)'>
           <p>Изображение</p>
           <input type="file" @input="inputimage" placeholder="Изображение" />
-          <p>активность</p>
-          <input v-model='insertForm.active' type='checkbox'>
           <p v-if="errorInsertForm" class="rate-change-red">Заполните все поля</p>
           <input type="submit" />
         </form>
@@ -45,8 +43,10 @@
             <h3>{{ item.name }}</h3>
             <p>{{ item.city }}</p>
             <p>{{ item.class }}</p>
-            <p>{{ item.link }}</p>
-            <p>активность: {{!!item.active}}</p>
+            <p>ссылка - {{ item.link }}</p>
+            <p>панорама - {{ item.around }}</p>
+            <p>трансляция - {{ item.translation }}</p>
+            <p>3D шоурум - {{ item["3d"] }}</p>
             <a target="_blank" :href="`${baseUrl}/get-buklet/${item.buklet}`">{{ item.buklet }}</a>
             <button @click='deleteBuild(item.id)' class='button_red'>Удалить</button>
           </div>
@@ -76,11 +76,13 @@ export default {
     insertForm: {
       name: '',
       city: null,
-      buklet: '',
+      around: '',
       image: '',
       link: '',
       active: true,
       class: null,
+      '3d': null,
+      translation: null
     },
     errorInsertForm: false,
   }),
@@ -92,11 +94,9 @@ export default {
     },
     submit() {
       if (
-        !this.insertForm.buklet ||
         !this.insertForm.image ||
         !this.insertForm.name ||
         !this.insertForm.city ||
-        !this.insertForm.class ||
         !this.insertForm.link
       ) {
         this.errorInsertForm = true
