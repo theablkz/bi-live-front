@@ -1,4 +1,4 @@
-const baseUrl = 'https://live-api.bi.group/'
+const baseUrl = 'https://live-api.bi.group'
 
 export {
   baseUrl
