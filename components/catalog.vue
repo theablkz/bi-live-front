@@ -67,8 +67,7 @@
     <div class="grid-col_1-8 title-box">
       <div v-if='tabIndex === 0'>
         <h2 class="title">
-          Прямые трансляции <br />
-          со строительных площадок BI Group
+          Прямые трансляции
         </h2>
       </div>
       <div v-if='tabIndex === 1'>
