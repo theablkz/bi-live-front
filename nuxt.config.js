@@ -35,7 +35,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    ['@nuxtjs/google-tag-manager', { id: 'GTM-KJ9H7FX' }],
+    ['@nuxtjs/google-tag-manager', { id: 'GTM-P3DGT3Z' }],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
