@@ -15,7 +15,7 @@
               <circle cx="5" cy="5" r="5" fill="white" />
             </svg>
           </span>
-          Сройка LIVE
+          Стройка LIVE
         </p>
       </div>
       <a href="tel: 360">
@@ -56,7 +56,7 @@
               <circle cx="5" cy="5" r="5" fill="white" />
             </svg>
           </span>
-          Сройка LIVE
+          Стройка LIVE
         </p>
       </div>
       <a href="tel: 360">

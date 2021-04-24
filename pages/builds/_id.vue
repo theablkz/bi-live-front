@@ -1,7 +1,7 @@
 <template>
   <div>
     <header-component />
-    <div class="grid">
+    <div v-if="currentBuild" class="grid">
       <div class="grid-col_1-4">
         <nuxt-link to="/">
           <p class="back flex flex_align-center">
@@ -9,10 +9,10 @@
           </p>
         </nuxt-link>
       </div>
-      <div v-if='currentBuild' class="grid-col_1-8 title-box">
-        <a :href="currentBuild.link" target='_blank'
+      <div v-if="currentBuild" class="grid-col_1-8 title-box">
+        <a :href="currentBuild.link" target="_blank"
           ><h2 class="title flex flex_align-center">
-            ЖК Сердце столицы
+            {{currentBuild.name}}
             <span style="margin-left: 8px"
               ><svg
                 width="24"
@@ -49,7 +49,7 @@
       <div class="grid-col_1-8">
         <ul class="live-tabs">
           <li
-            v-show='currentBuild.translation'
+            v-show="currentBuild.translation"
             @click="tabIndex = 0"
             :class="{
               active: tabIndex === 0,
@@ -70,7 +70,7 @@
             Онлайн трансляция
           </li>
           <li
-            v-show='currentBuild.around'
+            v-show="currentBuild.around"
             @click="tabIndex = 1"
             :class="{
               active: tabIndex === 1,
@@ -88,10 +88,10 @@
                 fill="#004B94"
               />
             </svg>
-            360 панорама
+            360° панорама
           </li>
           <li
-            v-show='currentBuild["3d"]'
+            v-show="currentBuild['3d']"
             @click="tabIndex = 2"
             :class="{
               active: tabIndex === 2,
@@ -109,15 +109,41 @@
                 fill="#004B94"
               />
             </svg>
-            3D шоурум
+            Виртуальный шоурум
           </li>
         </ul>
       </div>
       <div class="grid-col_1-11">
-        <iframe v-if='currentBuildContent && tabIndex !==0' :src='currentBuildContent' class='content'>
-
+        <div v-if="tabIndex === 2" class="tabs-show">
+          <p
+            v-for="(item, index) in JSON.parse(currentBuild['3d'])"
+            @click="virtualIndex = index"
+            :class="{ active: virtualIndex === index }"
+          >
+            Виртуальный шоурум {{ index  + 1}}
+          </p>
+        </div>
+        <img
+          v-if="currentBuildContent && tabIndex === 0"
+          :src="currentBuildContent"
+          class="content content-image"
+          alt=""
+        />
+        <iframe
+          v-if="currentBuildContent && tabIndex === 1"
+          :src="currentBuildContent"
+          class="content"
+        >
         </iframe>
-        <img v-if='currentBuildContent && tabIndex ===0' :src='currentBuildContent' class='content' alt=''>
+        <iframe
+          frameborder="0"
+          allowfullscreen
+          allow="vr"
+          v-if="currentBuildContent && tabIndex === 2"
+          :src="JSON.parse(currentBuildContent)[virtualIndex]"
+          class="content"
+        >
+        </iframe>
       </div>
     </div>
     <footer-component />
@@ -135,13 +161,19 @@ export default {
   data: () => ({
     tabIndex: 0,
     builds: [],
+    virtualIndex: 0,
   }),
-  computed: {
-    currentBuild(){
-      return this.builds.find(item => item.id == this.$route.params.id)
+  watch: {
+    tabIndex: function () {
+      this.getTitle()
     },
-    currentBuildContent(){
-      if (!this.currentBuild){
+  },
+  computed: {
+    currentBuild() {
+      return this.builds.find((item) => item.id == this.$route.params.id)
+    },
+    currentBuildContent() {
+      if (!this.currentBuild) {
         return undefined
       }
       if (this.tabIndex === 0) {
@@ -160,18 +192,62 @@ export default {
     },
   },
   methods: {
-
+    getTitle() {
+      if (!this.currentBuild) {
+        setTimeout(() => this.getTitle(), 1000)
+        return
+      }
+      const name = this.currentBuild.name
+      if (!name) {
+        document.title = ''
+      }
+      if (this.tabIndex === 0) {
+        document.title = `Онлайн-трансляция - ${name}`
+      }
+      if (this.tabIndex === 1) {
+        document.title = `360° панорама - ${name}`
+      }
+      if (this.tabIndex === 2) {
+        document.title = `Онлайн-трансляция - ${name}`
+      }
+    },
   },
-  created() {
+  mounted() {
     this.tabIndex = this.$route.hash ? parseInt(this.$route.hash[1]) : 0
     this.$axios.get(baseUrl).then((res) => {
       this.builds = res.data
+      this.getTitle()
     })
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.tabs-show {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  margin-bottom: 16px;
+  p {
+    margin-right: 8px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    text-transform: uppercase;
+    padding: 12px 20px;
+    color: #747474;
+    white-space: nowrap;
+    user-select: none;
+    &:hover {
+      color: #004b94;
+      cursor: pointer;
+    }
+    &.active {
+      color: #004b94;
+      border-bottom: 2px solid #004b94;
+    }
+  }
+}
 .back {
   font-size: 16px;
   line-height: 18px;
@@ -184,17 +260,23 @@ export default {
     color: #1369bf;
   }
 }
-.content{
+.content {
   width: 100%;
   height: auto;
   min-height: 600px;
+  &.content-image {
+    min-height: auto;
+  }
+  @media screen and (max-width: 768px) {
+    min-height: 400px;
+  }
 }
 .live-tabs {
   display: flex;
   align-items: center;
   border-radius: 10px;
   list-style: none;
-  margin-top: 70px;
+  margin-top: 0px;
   li {
     transition: 0.2s;
     display: flex;
@@ -229,7 +311,7 @@ export default {
       border-radius: 0px 10px 10px 0px;
     }
   }
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     flex-direction: column;
     align-items: stretch;
     li {
@@ -245,11 +327,11 @@ export default {
   }
 }
 .title-box {
-  margin-top: 40px;
+  margin-top: 0px;
   .title {
     color: #333333;
     font-weight: bold;
-    font-size: 32px;
+    font-size: 40px;
     line-height: 1.2;
     &:hover {
       color: #1369bf;

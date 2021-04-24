@@ -1,10 +1,11 @@
 export default {
   server: {
-    port: 3011
+    port: 3011,
+    host: '0.0.0.0'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Каталог электронных буклетов BI Group',
+    title: 'BI Group | Стройка LIVE',
     htmlAttrs: {
       lang: 'en'
     },

@@ -29,7 +29,8 @@
           </select>
           <input v-model='insertForm.translation' type='text' placeholder='Онлайн трансляция (ссылка)'>
           <input v-model='insertForm.around' type='text' placeholder='360 панорама (ссылка)'>
-          <input v-model="insertForm['3d']" type='text' placeholder='3D шоурум (ссылка)'>
+          <input v-for="(item, index) in insertForm['3d']" v-model="insertForm['3d'][index]" type='text' placeholder='3D шоурум (ссылка)'>
+          <button @click="insertForm['3d'] = [...insertForm['3d'], '']" type='button'>Добавить еще 3D шоурума</button>
           <p>Изображение</p>
           <input type="file" @input="inputimage" placeholder="Изображение" />
           <p v-if="errorInsertForm" class="rate-change-red">Заполните все поля</p>
@@ -81,7 +82,7 @@ export default {
       link: '',
       active: true,
       class: null,
-      '3d': null,
+      '3d': [''],
       translation: null
     },
     errorInsertForm: false,
@@ -93,6 +94,7 @@ export default {
       }
     },
     submit() {
+
       if (
         !this.insertForm.image ||
         !this.insertForm.name ||
@@ -102,8 +104,20 @@ export default {
         this.errorInsertForm = true
         return
       }
+      this.insertForm['3d'] = JSON.stringify(this.insertForm['3d'].filter(item => !!item))
       this.$axios.post(baseUrl, this.insertForm).then((res) => {
         console.log(res)
+        this.insertForm = {
+          name: '',
+          city: null,
+          around: '',
+          image: '',
+          link: '',
+          active: true,
+          class: null,
+          '3d': [''],
+          translation: null
+        }
         this.getBuilds()
       })
     },
