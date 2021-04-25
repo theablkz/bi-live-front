@@ -10,8 +10,11 @@
     <div v-if='papaRoach' class="grid">
       <div class="grid-col_1-6">
         <form @submit.prevent="submit">
+          <small>Имя</small>
           <input v-model='insertForm.name' type="text" placeholder="имя жк" />
+          <small>ссылка на сайт</small>
           <input v-model='insertForm.link' type="text" placeholder="ссылка на сайт" />
+          <small>класс</small>
           <select v-model='insertForm.class'>
             <option disabled selected :value='null'>Класс (не обязательно)</option>
             <option value="Стандарт">Стандарт</option>
@@ -19,6 +22,7 @@
             <option value="Бизнес">Бизнес</option>
             <option value="Премиум">Премиум</option>
           </select>
+          <small>город</small>
           <select v-model='insertForm.city'>
             <option disabled selected :value='null'>Город</option>
             <option value="Нур-Султан">Нур-Султан</option>
@@ -27,11 +31,15 @@
             <option value="Атырау">Атырау</option>
             <option value="Актау">Актау</option>
           </select>
+          <small>Онлайн трансляция (ссылка)</small>
           <input v-model='insertForm.translation' type='text' placeholder='Онлайн трансляция (ссылка)'>
+          <small>360 панорама (ссылка)</small>
           <input v-model='insertForm.around' type='text' placeholder='360 панорама (ссылка)'>
-          <input v-for="(item, index) in insertForm['3d']" v-model="insertForm['3d'][index]" type='text' placeholder='3D шоурум (ссылка)'>
-          <button @click="insertForm['3d'] = [...insertForm['3d'], '']" type='button'>Добавить еще 3D шоурума</button>
+          <small>Виртуальный шоурум</small>
+          <input v-for="(item, index) in insertForm['3d']" v-model="insertForm['3d'][index]" type='text' placeholder='Виртуальный шоурум (ссылка)'>
+          <button @click="insertForm['3d'] = [...insertForm['3d'], '']" type='button'>Добавить еще Виртуальный шоурум</button>
           <p>Изображение</p>
+          <small>{{insertForm.image}}</small>
           <input type="file" @input="inputimage" placeholder="Изображение" />
           <p v-if="errorInsertForm" class="rate-change-red">Заполните все поля</p>
           <input type="submit" />
@@ -49,6 +57,7 @@
             <p>трансляция - {{ item.translation }}</p>
             <p>3D шоурум - {{ item["3d"] }}</p>
             <a target="_blank" :href="`${baseUrl}/get-buklet/${item.buklet}`">{{ item.buklet }}</a>
+            <button @click='updateButton(item)' class='button_green'>Редактировать</button>
             <button @click='deleteBuild(item.id)' class='button_red'>Удалить</button>
           </div>
         </div>
@@ -72,9 +81,10 @@ export default {
       upAndDown: '',
       jackNumber: ''
     },
-    papaRoach: false,
+    papaRoach: true,
     builds: [],
     insertForm: {
+      id: null,
       name: '',
       city: null,
       around: '',
@@ -88,12 +98,17 @@ export default {
     errorInsertForm: false,
   }),
   methods: {
+    updateButton(item){
+      console.log(item)
+      this.insertForm = {...item}
+      this.insertForm['3d'] = JSON.parse(item['3d'])
+    },
     dell(){
       if (Base64.encode(this.trueValue.upAndDown) === this.hoverParagraph.upAndDown && Base64.encode(this.trueValue.jackNumber) === this.hoverParagraph.jackNumber){
         this.papaRoach = true
       }
     },
-    submit() {
+    async submit() {
 
       if (
         !this.insertForm.image ||
@@ -104,10 +119,14 @@ export default {
         this.errorInsertForm = true
         return
       }
+      if (this.insertForm.id !== null) {
+        await this.deleteBuild(this.insertForm.id)
+      }
       this.insertForm['3d'] = JSON.stringify(this.insertForm['3d'].filter(item => !!item))
       this.$axios.post(baseUrl, this.insertForm).then((res) => {
         console.log(res)
         this.insertForm = {
+          id: null,
           name: '',
           city: null,
           around: '',
@@ -186,6 +205,12 @@ export default {
     max-width: 200px;
     padding: 8px 10px;
     line-height: 1;
+  }
+  .button_green{
+    max-width: 200px;
+    padding: 8px 10px;
+    line-height: 1;
+    background: #6cd970;
   }
   img {
     width: 200px;

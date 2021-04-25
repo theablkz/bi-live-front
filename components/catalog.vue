@@ -414,7 +414,7 @@ export default {
     flex-direction: column;
     align-items: stretch;
     margin-bottom: 32px;
-    margin-top: 12px;
+    margin-top: 0px;
     li {
       margin-bottom: 2px;
       border-radius: 2px;
@@ -440,6 +440,7 @@ export default {
     margin-top: 24px;
     margin-bottom: 0px;
     .title {
+      margin-bottom: 0px;
       font-size: 32px;
     }
   }

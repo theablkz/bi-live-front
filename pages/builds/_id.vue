@@ -49,7 +49,7 @@
       <div class="grid-col_1-8">
         <ul class="live-tabs">
           <li
-            v-show="currentBuild.translation"
+            v-if="currentBuild.translation"
             @click="tabIndex = 0"
             :class="{
               active: tabIndex === 0,
@@ -70,7 +70,7 @@
             Онлайн трансляция
           </li>
           <li
-            v-show="currentBuild.around"
+            v-if="currentBuild.around"
             @click="tabIndex = 1"
             :class="{
               active: tabIndex === 1,
@@ -91,7 +91,7 @@
             360° панорама
           </li>
           <li
-            v-show="currentBuild['3d']"
+            v-if="JSON.parse(currentBuild['3d']).length"
             @click="tabIndex = 2"
             :class="{
               active: tabIndex === 2,
