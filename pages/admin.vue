@@ -43,7 +43,9 @@
           <input type="file" @input="inputimage" placeholder="Изображение" />
           <p v-if="errorInsertForm" class="rate-change-red">Заполните все поля</p>
           <input type="submit" />
+          <button @click='insertForm.id = null' type='button' class='button_yellow'>отмена редактирования</button>
         </form>
+
       </div>
       <div class="grid-col_6-11">
         <div v-for="item in builds" class="cards">
