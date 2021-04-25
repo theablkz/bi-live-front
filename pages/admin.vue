@@ -43,7 +43,7 @@
           <input type="file" @input="inputimage" placeholder="Изображение" />
           <p v-if="errorInsertForm" class="rate-change-red">Заполните все поля</p>
           <input type="submit" />
-          <button @click='insertForm.id = null' type='button' class='button_yellow'>отмена редактирования</button>
+          <button v-if='insertForm.id !== null' @click='insertForm.id = null' type='button' class='button_yellow'>отмена редактирования</button>
         </form>
 
       </div>
@@ -83,7 +83,7 @@ export default {
       upAndDown: '',
       jackNumber: ''
     },
-    papaRoach: true,
+    papaRoach: false,
     builds: [],
     insertForm: {
       id: null,
