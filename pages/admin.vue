@@ -1,30 +1,30 @@
 <template>
   <div>
-    <div v-if='!papaRoach'>
-      <form @submit.prevent='dell'>
-        <input type='text' placeholder='login' v-model='trueValue.upAndDown'>
-        <input type='password' placeholder='password' v-model='trueValue.jackNumber'>
-        <input type='submit'>
+    <div v-if="!papaRoach">
+      <form @submit.prevent="dell">
+        <input type="text" placeholder="login" v-model="trueValue.upAndDown" />
+        <input
+          type="password"
+          placeholder="password"
+          v-model="trueValue.jackNumber"
+        />
+        <input type="submit" />
       </form>
     </div>
-    <div v-if='papaRoach' class="grid">
+    <div v-if="papaRoach" class="grid">
       <div class="grid-col_1-6">
         <form @submit.prevent="submit">
           <small>Имя</small>
-          <input v-model='insertForm.name' type="text" placeholder="имя жк" />
+          <input v-model="insertForm.name" type="text" placeholder="имя жк" />
           <small>ссылка на сайт</small>
-          <input v-model='insertForm.link' type="text" placeholder="ссылка на сайт" />
-          <small>класс</small>
-          <select v-model='insertForm.class'>
-            <option disabled selected :value='null'>Класс (не обязательно)</option>
-            <option value="Стандарт">Стандарт</option>
-            <option value="Комфорт">Комфорт</option>
-            <option value="Бизнес">Бизнес</option>
-            <option value="Премиум">Премиум</option>
-          </select>
+          <input
+            v-model="insertForm.link"
+            type="text"
+            placeholder="ссылка на сайт"
+          />
           <small>город</small>
-          <select v-model='insertForm.city'>
-            <option disabled selected :value='null'>Город</option>
+          <select v-model="insertForm.city">
+            <option disabled selected :value="null">Город</option>
             <option value="Нур-Султан">Нур-Султан</option>
             <option value="Алматы">Алматы</option>
             <option value="Шымкент">Шымкент</option>
@@ -32,20 +32,46 @@
             <option value="Актау">Актау</option>
           </select>
           <small>Онлайн трансляция (ссылка)</small>
-          <input v-model='insertForm.translation' type='text' placeholder='Онлайн трансляция (ссылка)'>
+          <input
+            v-model="insertForm.translation"
+            type="text"
+            placeholder="Онлайн трансляция (ссылка)"
+          />
           <small>360 панорама (ссылка)</small>
-          <input v-model='insertForm.around' type='text' placeholder='360 панорама (ссылка)'>
+          <input
+            v-model="insertForm.around"
+            type="text"
+            placeholder="360 панорама (ссылка)"
+          />
           <small>Виртуальный шоурум</small>
-          <input v-for="(item, index) in insertForm['3d']" v-model="insertForm['3d'][index]" type='text' placeholder='Виртуальный шоурум (ссылка)'>
-          <button @click="insertForm['3d'] = [...insertForm['3d'], '']" type='button'>Добавить еще Виртуальный шоурум</button>
+          <input
+            v-for="(item, index) in insertForm['3d']"
+            v-model="insertForm['3d'][index]"
+            type="text"
+            placeholder="Виртуальный шоурум (ссылка)"
+          />
+          <button
+            @click="insertForm['3d'] = [...insertForm['3d'], '']"
+            type="button"
+          >
+            Добавить еще Виртуальный шоурум
+          </button>
           <p>Изображение</p>
-          <small>{{insertForm.image}}</small>
+          <small>{{ insertForm.image }}</small>
           <input type="file" @input="inputimage" placeholder="Изображение" />
-          <p v-if="errorInsertForm" class="rate-change-red">Заполните все поля</p>
+          <p v-if="errorInsertForm" class="rate-change-red">
+            Заполните все поля
+          </p>
           <input type="submit" />
-          <button v-if='insertForm.id !== null' @click='insertForm.id = null' type='button' class='button_yellow'>отмена редактирования</button>
+          <button
+            v-if="insertForm.id !== null"
+            @click="insertForm.id = null"
+            type="button"
+            class="button_yellow"
+          >
+            отмена редактирования
+          </button>
         </form>
-
       </div>
       <div class="grid-col_6-11">
         <div v-for="item in builds" class="cards">
@@ -57,10 +83,16 @@
             <p>ссылка - {{ item.link }}</p>
             <p>панорама - {{ item.around }}</p>
             <p>трансляция - {{ item.translation }}</p>
-            <p>3D шоурум - {{ item["3d"] }}</p>
-            <a target="_blank" :href="`${baseUrl}/get-buklet/${item.buklet}`">{{ item.buklet }}</a>
-            <button @click='updateButton(item)' class='button_green'>Редактировать</button>
-            <button @click='deleteBuild(item.id)' class='button_red'>Удалить</button>
+            <p>3D шоурум - {{ item['3d'] }}</p>
+            <a target="_blank" :href="`${baseUrl}/get-buklet/${item.buklet}`">{{
+              item.buklet
+            }}</a>
+            <button @click="updateButton(item)" class="button_green">
+              Редактировать
+            </button>
+            <button @click="deleteBuild(item.id)" class="button_red">
+              Удалить
+            </button>
           </div>
         </div>
       </div>
@@ -70,18 +102,18 @@
 
 <script>
 import { baseUrl } from '~/assets/config'
-import { Base64 } from 'js-base64';
+import { Base64 } from 'js-base64'
 
 export default {
   name: 'admin',
   data: () => ({
     hoverParagraph: {
       upAndDown: 'YWRtaW4=',
-      jackNumber: 'S2VnJDdSc1l1V1Q4'
+      jackNumber: 'S2VnJDdSc1l1V1Q4',
     },
     trueValue: {
       upAndDown: '',
-      jackNumber: ''
+      jackNumber: '',
     },
     papaRoach: false,
     builds: [],
@@ -95,23 +127,27 @@ export default {
       active: true,
       class: null,
       '3d': [''],
-      translation: null
+      translation: null,
     },
     errorInsertForm: false,
   }),
   methods: {
-    updateButton(item){
+    updateButton(item) {
       console.log(item)
-      this.insertForm = {...item}
+      this.insertForm = { ...item }
       this.insertForm['3d'] = JSON.parse(item['3d'])
     },
-    dell(){
-      if (Base64.encode(this.trueValue.upAndDown) === this.hoverParagraph.upAndDown && Base64.encode(this.trueValue.jackNumber) === this.hoverParagraph.jackNumber){
+    dell() {
+      if (
+        Base64.encode(this.trueValue.upAndDown) ===
+          this.hoverParagraph.upAndDown &&
+        Base64.encode(this.trueValue.jackNumber) ===
+          this.hoverParagraph.jackNumber
+      ) {
         this.papaRoach = true
       }
     },
     async submit() {
-
       if (
         !this.insertForm.image ||
         !this.insertForm.name ||
@@ -124,7 +160,9 @@ export default {
       if (this.insertForm.id !== null) {
         await this.deleteBuild(this.insertForm.id)
       }
-      this.insertForm['3d'] = JSON.stringify(this.insertForm['3d'].filter(item => !!item))
+      this.insertForm['3d'] = JSON.stringify(
+        this.insertForm['3d'].filter((item) => !!item)
+      )
       this.$axios.post(baseUrl, this.insertForm).then((res) => {
         console.log(res)
         this.insertForm = {
@@ -137,7 +175,7 @@ export default {
           active: true,
           class: null,
           '3d': [''],
-          translation: null
+          translation: null,
         }
         this.getBuilds()
       })
@@ -181,16 +219,16 @@ export default {
         this.builds = res.data
       })
     },
-    deleteBuild(id){
+    deleteBuild(id) {
       this.$axios.get(`${baseUrl}/delete/${id}`).then(() => {
         this.getBuilds()
       })
-    }
+    },
   },
   computed: {
-    baseUrl(){
+    baseUrl() {
       return baseUrl
-    }
+    },
   },
   created() {
     this.getBuilds()
@@ -203,12 +241,12 @@ export default {
   border: 1px solid blue;
   padding: 10px;
   display: flex;
-  .button_red{
+  .button_red {
     max-width: 200px;
     padding: 8px 10px;
     line-height: 1;
   }
-  .button_green{
+  .button_green {
     max-width: 200px;
     padding: 8px 10px;
     line-height: 1;
