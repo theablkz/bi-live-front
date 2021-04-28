@@ -33,10 +33,17 @@
           </select>
           <small>Онлайн трансляция (ссылка)</small>
           <input
-            v-model="insertForm.translation"
+            v-for="(item, index) in insertForm['translation']"
+            v-model="insertForm['translation'][index]"
             type="text"
             placeholder="Онлайн трансляция (ссылка)"
           />
+          <button
+            @click="insertForm['translation'] = [...insertForm['translation'], '']"
+            type="button"
+          >
+            Добавить еще Трансляцию
+          </button>
           <small>360 панорама (ссылка)</small>
           <input
             v-model="insertForm.around"
@@ -127,15 +134,15 @@ export default {
       active: true,
       class: null,
       '3d': [''],
-      translation: null,
+      translation: [''],
     },
     errorInsertForm: false,
   }),
   methods: {
     updateButton(item) {
-      console.log(item)
       this.insertForm = { ...item }
       this.insertForm['3d'] = JSON.parse(item['3d'])
+      this.insertForm.translation = JSON.parse(item.translation)
     },
     dell() {
       if (
@@ -163,6 +170,9 @@ export default {
       this.insertForm['3d'] = JSON.stringify(
         this.insertForm['3d'].filter((item) => !!item)
       )
+      this.insertForm.translation = JSON.stringify(
+        this.insertForm.translation.filter((item) => !!item)
+      )
       this.$axios.post(baseUrl, this.insertForm).then((res) => {
         console.log(res)
         this.insertForm = {
@@ -175,7 +185,7 @@ export default {
           active: true,
           class: null,
           '3d': [''],
-          translation: null,
+          translation: [''],
         }
         this.getBuilds()
       })

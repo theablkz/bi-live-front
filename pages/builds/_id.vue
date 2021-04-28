@@ -49,7 +49,7 @@
       <div class="grid-col_1-8">
         <ul class="live-tabs">
           <li
-            v-if="currentBuild.translation"
+            v-if="JSON.parse(currentBuild['translation']).length"
             @click="tabIndex = 0"
             :class="{
               active: tabIndex === 0,
@@ -114,6 +114,15 @@
         </ul>
       </div>
       <div class="grid-col_1-11">
+        <div v-if="tabIndex === 0" class="tabs-show">
+          <p
+            v-for="(item, index) in JSON.parse(currentBuild['translation'])"
+            @click="virtualIndex = index"
+            :class="{ active: virtualIndex === index }"
+          >
+            Онлайн трансляция {{ index  + 1}}
+          </p>
+        </div>
         <div v-if="tabIndex === 2" class="tabs-show">
           <p
             v-for="(item, index) in JSON.parse(currentBuild['3d'])"
@@ -125,7 +134,7 @@
         </div>
         <img
           v-if="currentBuildContent && tabIndex === 0"
-          :src="currentBuildContent"
+          :src="JSON.parse(currentBuildContent)[virtualIndex]"
           class="content content-image"
           alt=""
         />
@@ -162,6 +171,7 @@ export default {
     tabIndex: 0,
     builds: [],
     virtualIndex: 0,
+    transactionIndex: 0
   }),
   watch: {
     tabIndex: function () {
@@ -305,10 +315,12 @@ export default {
       }
     }
     &:first-child {
-      border-radius: 10px 0px 0px 10px;
+      border-bottom-left-radius: 10px;
+      border-top-left-radius: 10px;
     }
     &:last-child {
-      border-radius: 0px 10px 10px 0px;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
     }
   }
   @media screen and (max-width: 768px) {

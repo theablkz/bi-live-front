@@ -314,7 +314,7 @@ export default {
           (item) =>
             (this.cityValue ? item.city === this.cityValue : true) &&
             (this.classValue ? item.name === this.classValue : true) &&
-            item.translation &&
+            JSON.parse(item.translation).length &&
             item.active
         )
       }
