@@ -65,32 +65,25 @@
       </ul>
     </div>
     <div class="grid-col_1-8 title-box">
-      <div v-if='tabIndex === 0'>
-        <h2 class="title">
-          Прямые трансляции
-        </h2>
+      <div v-if="tabIndex === 0">
+        <h2 class="title">Прямые трансляции</h2>
       </div>
-      <div v-if='tabIndex === 1'>
-        <h2 class="title">
-          360° панорама
-        </h2>
+      <div v-if="tabIndex === 1">
+        <h2 class="title">360° панорама</h2>
       </div>
-      <div v-if='tabIndex === 2'>
-        <h2 class="title">
-          Виртуальный шоурум
-        </h2>
+      <div v-if="tabIndex === 2">
+        <h2 class="title">Виртуальный шоурум</h2>
       </div>
     </div>
 
-
     <div class="grid-col_1-11">
-      <div class='desktop_none'>
+      <div class="desktop_none">
         <ul class="live-tabs">
           <li
             @click="tabIndex = 0"
             :class="{
-            active: tabIndex === 0,
-          }"
+              active: tabIndex === 0,
+            }"
           >
             <svg
               width="24"
@@ -109,8 +102,8 @@
           <li
             @click="tabIndex = 1"
             :class="{
-            active: tabIndex === 1,
-          }"
+              active: tabIndex === 1,
+            }"
           >
             <svg
               width="24"
@@ -129,8 +122,8 @@
           <li
             @click="tabIndex = 2"
             :class="{
-            active: tabIndex === 2,
-          }"
+              active: tabIndex === 2,
+            }"
           >
             <svg
               width="24"
@@ -151,7 +144,16 @@
       <div class="filter-box">
         <div @click="selectsCity = !selectsCity" class="filter-field">
           <p class="indent_bottom-h5">Город</p>
-          <div class="filter-select" :class="{ active: selectsCity }">
+          <div
+            class="filter-select"
+            :class="{ active: selectsCity }"
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              padding: 12px 16px;
+            "
+          >
             <span>{{ cityValue || 'Все города' }}</span>
             <svg
               width="16"
@@ -173,28 +175,48 @@
             </ul>
           </div>
         </div>
-        <div @click="selectsClass = !selectsClass" class="filter-field">
+        <div class="filter-field">
           <p class="indent_bottom-h5">Жилой комплекс</p>
           <div class="filter-select" :class="{ active: selectsClass }">
-            <span>{{ classValue || 'Все' }}</span>
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            <div
+              class="flex flex_justify-between"
+              @click="selectsClass = !selectsClass"
             >
-              <path
-                d="M4.00002 5.80005L8.00002 9.80005L12 5.80005L13.6 6.60005L8.00002 12.2L2.40002 6.60005L4.00002 5.80005Z"
-                fill="black"
-              />
-            </svg>
+              <span>{{ classValue || 'Все' }}</span>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4.00002 5.80005L8.00002 9.80005L12 5.80005L13.6 6.60005L8.00002 12.2L2.40002 6.60005L4.00002 5.80005Z"
+                  fill="black"
+                />
+              </svg>
+            </div>
+
             <ul v-if="selectsClass">
-              <li @click="classValue = null">Все</li>
+              <input v-model="searchInput" type="text" />
               <li
-                v-for="item in classes"
+                @click="
+                  classValue = null
+                  searchInput = ''
+                  selectsClass = false
+                "
+              >
+                Все
+              </li>
+              <li
+                v-for="item in searchClasses"
                 :key="item"
-                @click="classValue = item"
+                @click="
+                  classValue = null
+                  searchInput = ''
+                  selectsClass = false
+                  classValue = item
+                "
               >
                 {{ item }}
               </li>
@@ -218,36 +240,37 @@
                   :src="`${baseUrl}/get-image/${item.image}`"
                   alt=""
                 />
-                <div v-if='tabIndex===0' class="link-bg">
+                <div v-if="tabIndex === 0" class="link-bg">
                   <img src="~/assets/image/icons/camera.svg" alt="" />
                   <p>Cмотреть онлайн-трансляцию</p>
                 </div>
-                <div v-if='tabIndex===1' class="link-bg">
+                <div v-if="tabIndex === 1" class="link-bg">
                   <img src="~/assets/image/icons/360.svg" alt="" />
                   <p>Cмотреть 360° панораму</p>
                 </div>
-                <div v-if='tabIndex===2' class="link-bg">
+                <div v-if="tabIndex === 2" class="link-bg">
                   <img src="~/assets/image/icons/3d.svg" alt="" />
                   <p>Cмотреть Виртуальный шоурум</p>
                 </div>
               </div>
-
             </div>
           </nuxt-link>
           <div class="">
-            <a :href='item.link' target='_blank'><p class="card-name">{{ item.name }}</p></a>
+            <a :href="item.link" target="_blank"
+              ><p class="card-name">{{ item.name }}</p></a
+            >
             <p class="card-city secondary-text">
-                  <span
-                  ><svg
-                    width="8"
-                    height="9"
-                    viewBox="0 0 8 9"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                      <circle cx="4" cy="4.5" r="4" fill="#F2994A" />
-                    </svg>
-                  </span>
+              <span
+                ><svg
+                  width="8"
+                  height="9"
+                  viewBox="0 0 8 9"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle cx="4" cy="4.5" r="4" fill="#F2994A" />
+                </svg>
+              </span>
               {{ item.city }}
             </p>
           </div>
@@ -279,11 +302,17 @@ export default {
     cityValue: null,
     classValue: null,
     builds: [],
+    searchInput: '',
     limit: 6,
   }),
   computed: {
     classes() {
       return [...new Set(this.builds.map((item) => item.name))]
+    },
+    searchClasses() {
+      return this.classes.filter((item) =>
+        new RegExp(this.searchInput, 'i').test(item)
+      )
     },
     cities() {
       return [...new Set(this.builds.map((item) => item.city))]
@@ -309,7 +338,7 @@ export default {
       ]
     },
     filters() {
-      if(this.tabIndex === 0){
+      if (this.tabIndex === 0) {
         return this.sortBuilds.filter(
           (item) =>
             (this.cityValue ? item.city === this.cityValue : true) &&
@@ -318,7 +347,7 @@ export default {
             item.active
         )
       }
-      if(this.tabIndex === 1){
+      if (this.tabIndex === 1) {
         return this.sortBuilds.filter(
           (item) =>
             (this.cityValue ? item.city === this.cityValue : true) &&
@@ -327,12 +356,12 @@ export default {
             item.active
         )
       }
-      if(this.tabIndex === 2){
+      if (this.tabIndex === 2) {
         return this.sortBuilds.filter(
           (item) =>
             (this.cityValue ? item.city === this.cityValue : true) &&
             (this.classValue ? item.name === this.classValue : true) &&
-            JSON.parse(item["3d"]).length &&
+            JSON.parse(item['3d']).length &&
             item.active
         )
       }
@@ -367,7 +396,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.top-tab{
+.top-tab {
   margin-top: 32px;
 }
 .live-tabs {
@@ -410,7 +439,7 @@ export default {
       border-radius: 0px 10px 10px 0px;
     }
   }
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     flex-direction: column;
     align-items: stretch;
     margin-bottom: 32px;
@@ -474,16 +503,22 @@ export default {
       border: 1px solid #e0e5ed;
       box-sizing: border-box;
       border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
+
       position: relative;
       font-size: 16px;
       line-height: 24px;
       color: #01152c;
+      div {
+        padding: 12px 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
       ul {
+        padding: 6px 16px;
+        max-height: 329px;
+        overflow-y: auto;
         border-left: 1px solid #e0e5ed;
         border-right: 1px solid #e0e5ed;
         border-bottom: 1px solid #e0e5ed;
@@ -496,6 +531,9 @@ export default {
         left: -1px;
         list-style: none;
         background: white;
+        input {
+          background: white;
+        }
         li {
           cursor: pointer;
           padding: 6px 16px;
@@ -530,7 +568,7 @@ export default {
   font-weight: 500;
   font-size: 18px;
   margin-bottom: 8px;
-  &:hover{
+  &:hover {
     color: #004b94;
   }
 }
@@ -596,7 +634,6 @@ export default {
           }
         }
       }
-
     }
     .build-card-image {
       width: 100%;
@@ -648,7 +685,7 @@ export default {
   padding: 20px 12px;
 }
 .view-more {
-  background: #1369BF;
+  background: #1369bf;
   border-radius: 8px;
   color: white;
   display: flex;
