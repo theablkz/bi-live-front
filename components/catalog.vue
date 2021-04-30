@@ -147,12 +147,7 @@
           <div
             class="filter-select"
             :class="{ active: selectsCity }"
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: space-between;
-              padding: 12px 16px;
-            "
+            style="display: flex;align-items: center;justify-content: space-between;padding: 12px 16px;"
           >
             <span>{{ cityValue || 'Все города' }}</span>
             <svg
