@@ -3,7 +3,8 @@
     <div class="grid-col_1-8 mobile_none top-tab">
       <ul class="live-tabs">
         <li
-          @click="tabIndex = 0"
+          @click="tabIndex = 0; cityValue = null; searchInput = ''; classValue = null;"
+
           :class="{
             active: tabIndex === 0,
           }"
@@ -23,7 +24,8 @@
           Онлайн трансляция
         </li>
         <li
-          @click="tabIndex = 1"
+          @click="tabIndex = 1; cityValue = null; searchInput = ''; classValue = null;"
+
           :class="{
             active: tabIndex === 1,
           }"
@@ -43,7 +45,8 @@
           360° панорама
         </li>
         <li
-          @click="tabIndex = 2"
+          @click="tabIndex = 2; cityValue = null; searchInput = ''; classValue = null;"
+
           :class="{
             active: tabIndex === 2,
           }"
@@ -66,7 +69,7 @@
     </div>
     <div class="grid-col_1-8 title-box">
       <div v-if="tabIndex === 0">
-        <h2 class="title">Прямые трансляции</h2>
+        <h2 class="title">Онлайн трансляция</h2>
       </div>
       <div v-if="tabIndex === 1">
         <h2 class="title">360° панорама</h2>
@@ -80,7 +83,7 @@
       <div class="desktop_none">
         <ul class="live-tabs">
           <li
-            @click="tabIndex = 0"
+            @click="tabIndex = 0; cityValue = null; searchInput = ''; classValue = null;"
             :class="{
               active: tabIndex === 0,
             }"
@@ -100,7 +103,8 @@
             Онлайн трансляция
           </li>
           <li
-            @click="tabIndex = 1"
+            @click="tabIndex = 1; cityValue = null; searchInput = ''; classValue = null;"
+
             :class="{
               active: tabIndex === 1,
             }"
@@ -120,7 +124,8 @@
             360° панорама
           </li>
           <li
-            @click="tabIndex = 2"
+            @click="tabIndex = 2; cityValue = null; searchInput = ''; classValue = null;"
+
             :class="{
               active: tabIndex === 2,
             }"
@@ -164,7 +169,7 @@
             </svg>
             <ul v-if="selectsCity">
               <li @click="cityValue = null">Все</li>
-              <li v-for="item in cities" :key="item" @click="cityValue = item">
+              <li v-for="item in cities" :key="item" @click="cityValue = item; searchInput = ''; classValue = null">
                 {{ item }}
               </li>
             </ul>
@@ -302,7 +307,7 @@ export default {
   }),
   computed: {
     classes() {
-      return [...new Set(this.builds.map((item) => item.name))]
+      return [...new Set(this.searchFilter.map((item) => item.name))]
     },
     searchClasses() {
       return this.classes.filter((item) =>
@@ -331,6 +336,37 @@ export default {
           this.builds.filter((item) => item.city === 'Актау')
         ),
       ]
+    },
+    searchFilter(){
+      if (this.tabIndex === 0) {
+        return this.sortBuilds.filter(
+          (item) =>
+            (this.cityValue ? item.city === this.cityValue : true) &&
+            JSON.parse(item.translation).length &&
+            item.active
+        )
+      }
+      if (this.tabIndex === 1) {
+        return this.sortBuilds.filter(
+          (item) =>
+            (this.cityValue ? item.city === this.cityValue : true) &&
+            item.around &&
+            item.active
+        )
+      }
+      if (this.tabIndex === 2) {
+        return this.sortBuilds.filter(
+          (item) =>
+            (this.cityValue ? item.city === this.cityValue : true) &&
+            JSON.parse(item['3d']).length &&
+            item.active
+        )
+      }
+      return this.sortBuilds.filter(
+        (item) =>
+          (this.cityValue ? item.city === this.cityValue : true) &&
+          item.active
+      )
     },
     filters() {
       if (this.tabIndex === 0) {
