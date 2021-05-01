@@ -28,7 +28,9 @@
     </div>
     <div class="footer-content">
       <div class="footer-content__contacts">
-        <img class="logo" src="~assets/image/icons/logo.svg" alt="bi group" />
+        <a href="https://bi.group/" target="_blank"
+        ><img class="logo" src="~assets/image/icons/logo.svg" alt="bi group" /></a>
+
 
         <div class="contacts">
           <a href="tel:360">
