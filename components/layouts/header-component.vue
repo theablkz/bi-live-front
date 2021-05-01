@@ -2,7 +2,9 @@
   <div class="header">
     <div class="header-box">
       <div class="flex flex_align-center">
-        <img src="~assets/image/icons/logo.svg" alt="" />
+        <a href="https://bi.group/" target="_blank"
+        ><img src="~assets/image/icons/logo.svg" alt=""
+        /></a>
         <p class="live-header">
           <span
             ><svg
@@ -43,7 +45,9 @@
     </div>
     <div class="header-box-768">
       <div class='flex flex_align-center'>
-        <img src="~assets/image/icons/logo-min.svg" alt="" />
+        <a href="https://bi.group/" target="_blank"
+        ><img src="~assets/image/icons/logo-min.svg" alt=""
+        /></a>
         <p class="live-header">
           <span
           ><svg
