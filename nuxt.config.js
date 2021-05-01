@@ -16,7 +16,6 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/logo-min.svg' }],
   },
-  target: 'static',
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [{ src: '~/assets/style/main.scss', lang: 'scss' }],
 
