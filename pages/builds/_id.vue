@@ -49,7 +49,6 @@
       <div class="grid-col_1-8">
         <ul class="live-tabs">
           <li
-            v-if="currentBuild.translation"
             v-if="JSON.parse(currentBuild['translation']).length"
             @click="tabIndex = 0"
             :class="{
@@ -135,7 +134,6 @@
         </div>
         <img
           v-if="currentBuildContent && tabIndex === 0"
-          :src="currentBuildContent"
           :src="JSON.parse(currentBuildContent)[virtualIndex]"
           class="content content-image"
           alt=""
