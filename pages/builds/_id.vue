@@ -49,7 +49,7 @@
       <div class="grid-col_1-8">
         <ul class="live-tabs">
           <li
-            v-if="JSON.parse(currentBuild['translation']).length"
+            v-if="currentBuild['translation'].length"
             @click="tabIndex = 0"
             :class="{
               active: tabIndex === 0,
@@ -116,7 +116,7 @@
       <div class="grid-col_1-11">
         <div v-if="tabIndex === 0" class="tabs-show">
           <p
-            v-for="(item, index) in JSON.parse(currentBuild['translation'])"
+            v-for="(item, index) in currentBuild['translation']"
             @click="virtualIndex = index"
             :class="{ active: virtualIndex === index }"
           >
@@ -134,7 +134,7 @@
         </div>
         <img
           v-if="currentBuildContent && tabIndex === 0"
-          :src="JSON.parse(currentBuildContent)[virtualIndex]"
+          :src="currentBuild.translation[virtualIndex]"
           class="content content-image"
           alt=""
         />
@@ -220,13 +220,34 @@ export default {
       if (this.tabIndex === 2) {
         document.title = `Онлайн-трансляция - ${name}`
       }
-    },
+    }
+
   },
-  mounted() {
+  async mounted() {
+
     this.tabIndex = this.$route.hash ? parseInt(this.$route.hash[1]) : 0
-    this.$axios.get(baseUrl).then((res) => {
+    await this.$axios.get(baseUrl).then( async res => {
+      if (!res.data.find((item) => item.id == this.$route.params.id)) {
+        throw res
+      }
+      let a = res.data.find((item) => item.id == this.$route.params.id)
+      let b = await Promise.all(JSON.parse(a.translation).map(item => {
+          return this.$axios.get(item).then(res => {
+            if (res.data.length > 0) {
+              return item
+            }
+            return '/default.png'
+          }).catch(err => {
+            return '/default.png'
+          })
+        }))
+      console.log('bbb',b)
+      a.translation = b
+
       this.builds = res.data
       this.getTitle()
+    }).catch(err => {
+      this.$router.push('/')
     })
   },
 }
