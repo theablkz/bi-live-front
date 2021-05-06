@@ -11,16 +11,16 @@
       </div>
       <div v-if="currentBuild" class="grid-col_1-8 title-box">
         <a :href="currentBuild.link" target="_blank"
-          ><h2 class="title flex flex_align-center">
-            {{currentBuild.name}}
-            <span style="margin-left: 8px"
-              ><svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
+        ><h2 class="title flex flex_align-center">
+          {{currentBuild.name}}
+          <span style="margin-left: 8px"
+          ><svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
                 <path
                   d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11"
                   stroke="#9A9A9A"
@@ -49,7 +49,8 @@
       <div class="grid-col_1-8">
         <ul class="live-tabs">
           <li
-            v-if="currentBuild['translation'].length"
+            v-if="currentBuild.translation"
+            v-if="JSON.parse(currentBuild['translation']).length"
             @click="tabIndex = 0"
             :class="{
               active: tabIndex === 0,
@@ -116,7 +117,7 @@
       <div class="grid-col_1-11">
         <div v-if="tabIndex === 0" class="tabs-show">
           <p
-            v-for="(item, index) in currentBuild['translation']"
+            v-for="(item, index) in JSON.parse(currentBuild['translation'])"
             @click="virtualIndex = index"
             :class="{ active: virtualIndex === index }"
           >
@@ -134,7 +135,8 @@
         </div>
         <img
           v-if="currentBuildContent && tabIndex === 0"
-          :src="currentBuild.translation[virtualIndex]"
+          :src="currentBuildContent"
+          :src="JSON.parse(currentBuildContent)[virtualIndex]"
           class="content content-image"
           alt=""
         />
@@ -220,34 +222,13 @@ export default {
       if (this.tabIndex === 2) {
         document.title = `Онлайн-трансляция - ${name}`
       }
-    }
-
+    },
   },
-  async mounted() {
-
+  mounted() {
     this.tabIndex = this.$route.hash ? parseInt(this.$route.hash[1]) : 0
-    await this.$axios.get(baseUrl).then( async res => {
-      if (!res.data.find((item) => item.id == this.$route.params.id)) {
-        throw res
-      }
-      let a = res.data.find((item) => item.id == this.$route.params.id)
-      let b = await Promise.all(JSON.parse(a.translation).map(item => {
-          return this.$axios.get(item).then(res => {
-            if (res.data.length > 0) {
-              return item
-            }
-            return '/default.png'
-          }).catch(err => {
-            return '/default.png'
-          })
-        }))
-      console.log('bbb',b)
-      a.translation = b
-
+    this.$axios.get(baseUrl).then((res) => {
       this.builds = res.data
       this.getTitle()
-    }).catch(err => {
-      this.$router.push('/')
     })
   },
 }
@@ -336,10 +317,12 @@ export default {
       }
     }
     &:first-child {
+      border-radius: 10px 0px 0px 10px;
       border-bottom-left-radius: 10px;
       border-top-left-radius: 10px;
     }
     &:last-child {
+      border-radius: 0px 10px 10px 0px;
       border-top-right-radius: 10px;
       border-bottom-right-radius: 10px;
     }
@@ -597,3 +580,4 @@ export default {
   }
 }
 </style>
+
