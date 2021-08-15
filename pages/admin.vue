@@ -8,6 +8,7 @@
           placeholder="password"
           v-model="trueValue.jackNumber"
         />
+        <p v-if='authError' class='field_error'><span style='{color: red}'>Ошибка авторизации. Логин или пароль неверные</span></p>
         <input type="submit" />
       </form>
     </div>
@@ -114,14 +115,11 @@ import { Base64 } from 'js-base64'
 export default {
   name: 'admin',
   data: () => ({
-    hoverParagraph: {
-      upAndDown: 'YWRtaW4=',
-      jackNumber: 'S2VnJDdSc1l1V1Q4',
-    },
     trueValue: {
       upAndDown: '',
       jackNumber: '',
     },
+    authError: false,
     papaRoach: false,
     builds: [],
     insertForm: {
@@ -144,14 +142,19 @@ export default {
       this.insertForm['3d'] = JSON.parse(item['3d'])
       this.insertForm.translation = JSON.parse(item.translation)
     },
-    dell() {
-      if (
-        Base64.encode(this.trueValue.upAndDown) ===
-          this.hoverParagraph.upAndDown &&
-        Base64.encode(this.trueValue.jackNumber) ===
-          this.hoverParagraph.jackNumber
-      ) {
-        this.papaRoach = true
+    async dell() {
+      this.authError = false
+      if (this.trueValue.upAndDown && this.trueValue.jackNumber) {
+        this.$axios.post(`${baseUrl}/auth`, {
+          user: `${Base64.encode(this.trueValue.upAndDown)}${Base64.encode(this.trueValue.jackNumber)}`
+        }).then(() => {
+          this.papaRoach = true
+        }).catch(err => {
+          console.log(err)
+          this.authError = true
+        })
+      }else {
+        this.authError = true
       }
     },
     async submit() {
