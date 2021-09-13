@@ -45,11 +45,11 @@
           >
             Добавить еще Трансляцию
           </button>
-          <small>360 панорама (ссылка)</small>
+          <small>Видео обзор (ссылка)</small>
           <input
             v-model="insertForm.around"
             type="text"
-            placeholder="360 панорама (ссылка)"
+            placeholder="Видео обзор (ссылка)"
           />
           <small>Виртуальный шоурум</small>
           <input
@@ -89,7 +89,7 @@
             <p>{{ item.city }}</p>
             <p>{{ item.class }}</p>
             <p>ссылка - {{ item.link }}</p>
-            <p>панорама - {{ item.around }}</p>
+            <p>Видео обзор - {{ item.around }}</p>
             <p>трансляция - {{ item.translation }}</p>
             <p>3D шоурум - {{ item['3d'] }}</p>
             <a target="_blank" :href="`${baseUrl}/get-buklet/${item.buklet}`">{{

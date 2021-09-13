@@ -11,16 +11,16 @@
       </div>
       <div v-if="currentBuild" class="grid-col_1-8 title-box">
         <a :href="currentBuild.link" target="_blank"
-        ><h2 class="title flex flex_align-center">
-          {{currentBuild.name}}
-          <span style="margin-left: 8px"
-          ><svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          ><h2 class="title flex flex_align-center">
+            {{ currentBuild.name }}
+            <span style="margin-left: 8px"
+              ><svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <path
                   d="M18 13V19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H11"
                   stroke="#9A9A9A"
@@ -77,18 +77,69 @@
             }"
           >
             <svg
+              xmlns="http://www.w3.org/2000/svg"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              xmlns:svgjs="http://svgjs.com/svgjs"
+              version="1.1"
               width="24"
               height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+              x="0"
+              y="0"
+              viewBox="0 0 30.051 30.051"
+              style="enable-background: new 0 0 512 512"
+              xml:space="preserve"
+              class=""
             >
-              <path
-                d="M12 7C6.48 7 2 9.24 2 12C2 14.24 4.94 16.13 9 16.77V20L13 16L9 12V14.73C5.85 14.17 4 12.83 4 12C4 10.94 7.04 9 12 9C16.96 9 20 10.94 20 12C20 12.73 18.54 13.89 16 14.53V16.58C19.53 15.81 22 14.05 22 12C22 9.24 17.52 7 12 7Z"
-                fill="#004B94"
-              />
-            </svg>
-            360° панорама
+            <g>
+              <g xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M19.982,14.438l-6.24-4.536c-0.229-0.166-0.533-0.191-0.784-0.062c-0.253,0.128-0.411,0.388-0.411,0.669v9.069   c0,0.284,0.158,0.543,0.411,0.671c0.107,0.054,0.224,0.081,0.342,0.081c0.154,0,0.31-0.049,0.442-0.146l6.24-4.532   c0.197-0.145,0.312-0.369,0.312-0.607C20.295,14.803,20.177,14.58,19.982,14.438z"
+                  fill="#004b94"
+                  data-original="#000000"
+                  style=""
+                  class=""
+                />
+                <path
+                  d="M15.026,0.002C6.726,0.002,0,6.728,0,15.028c0,8.297,6.726,15.021,15.026,15.021c8.298,0,15.025-6.725,15.025-15.021   C30.052,6.728,23.324,0.002,15.026,0.002z M15.026,27.542c-6.912,0-12.516-5.601-12.516-12.514c0-6.91,5.604-12.518,12.516-12.518   c6.911,0,12.514,5.607,12.514,12.518C27.541,21.941,21.937,27.542,15.026,27.542z"
+                  fill="#004b94"
+                  data-original="#000000"
+                  style=""
+                  class=""
+                />
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+                <g></g>
+              </g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+              <g xmlns="http://www.w3.org/2000/svg"></g>
+            </g>
+          </svg>
+            Видео обзор
           </li>
           <li
             v-if="JSON.parse(currentBuild['3d']).length"
@@ -120,7 +171,7 @@
             @click="virtualIndex = index"
             :class="{ active: virtualIndex === index }"
           >
-            Онлайн трансляция {{ index  + 1}}
+            Онлайн трансляция {{ index + 1 }}
           </p>
         </div>
         <div v-if="tabIndex === 2" class="tabs-show">
@@ -129,7 +180,7 @@
             @click="virtualIndex = index"
             :class="{ active: virtualIndex === index }"
           >
-            Виртуальный шоурум {{ index  + 1}}
+            Виртуальный шоурум {{ index + 1 }}
           </p>
         </div>
         <img
@@ -142,6 +193,10 @@
           v-if="currentBuildContent && tabIndex === 1"
           :src="currentBuildContent"
           class="content"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          frameborder="0"
+          title="YouTube video player"
         >
         </iframe>
         <iframe
@@ -171,7 +226,7 @@ export default {
     tabIndex: 0,
     builds: [],
     virtualIndex: 0,
-    transactionIndex: 0
+    transactionIndex: 0,
   }),
   watch: {
     tabIndex: function () {
@@ -215,7 +270,7 @@ export default {
         document.title = `Онлайн-трансляция - ${name}`
       }
       if (this.tabIndex === 1) {
-        document.title = `360° панорама - ${name}`
+        document.title = `Видео обзор - ${name}`
       }
       if (this.tabIndex === 2) {
         document.title = `Онлайн-трансляция - ${name}`
@@ -578,4 +633,3 @@ export default {
   }
 }
 </style>
-
