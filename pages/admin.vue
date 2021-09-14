@@ -46,11 +46,25 @@
             Добавить еще Трансляцию
           </button>
           <small>Видео обзор (ссылка)</small>
-          <input
-            v-model="insertForm.around"
-            type="text"
-            placeholder="Видео обзор (ссылка)"
-          />
+          <div  v-for="(item, index) in insertForm['around']">
+            <input
+              v-model="insertForm['around'][index][0]"
+              type="text"
+              placeholder="Видео обзор (ссылка)"
+            />
+            <input
+              v-model="insertForm['around'][index][1]"
+              type="text"
+              placeholder="Видео обзор (наз. тэга)"
+            />
+          </div>
+
+          <button
+            @click="insertForm['around'] = [...insertForm['around'], ['','']]"
+            type="button"
+          >
+            Добавить еще Видео обзор
+          </button>
           <small>Виртуальный шоурум</small>
           <input
             v-for="(item, index) in insertForm['3d']"
@@ -126,7 +140,7 @@ export default {
       id: null,
       name: '',
       city: null,
-      around: '',
+      around: [['','']],
       image: '',
       link: '',
       active: true,
@@ -141,6 +155,7 @@ export default {
       this.insertForm = { ...item }
       this.insertForm['3d'] = JSON.parse(item['3d'])
       this.insertForm.translation = JSON.parse(item.translation)
+      this.insertForm.around = item.around ? JSON.parse(item.around) : [['', '']]
     },
     async dell() {
       this.authError = false
@@ -167,6 +182,12 @@ export default {
         this.errorInsertForm = true
         return
       }
+      let checkAround = this.insertForm.around.filter(item => !!item[0] || !!item[1])
+      if (checkAround.some(item => !item[0] || !item[1])) {
+        console.log('mdf?', checkAround)
+        this.errorInsertForm = true
+        return
+      }
       if (this.insertForm.id !== null) {
         await this.deleteBuild(this.insertForm.id)
       }
@@ -176,13 +197,16 @@ export default {
       this.insertForm.translation = JSON.stringify(
         this.insertForm.translation.filter((item) => !!item)
       )
+      this.insertForm.around = JSON.stringify(
+        this.insertForm.around.filter((item) => !!item[0])
+      )
       this.$axios.post(baseUrl, this.insertForm).then((res) => {
         console.log(res)
         this.insertForm = {
           id: null,
           name: '',
           city: null,
-          around: '',
+          around: ['',''],
           image: '',
           link: '',
           active: true,
@@ -229,7 +253,7 @@ export default {
     },
     getBuilds() {
       this.$axios.get(baseUrl).then((res) => {
-        this.builds = res.data
+        this.builds = res.data.sort((a,b) => new Intl.Collator().compare(a.name, b.name))
       })
     },
     deleteBuild(id) {

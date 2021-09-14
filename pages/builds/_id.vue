@@ -50,7 +50,7 @@
         <ul class="live-tabs">
           <li
             v-if="JSON.parse(currentBuild['translation']).length"
-            @click="tabIndex = 0"
+            @click="tabIndexSubmit(0)"
             :class="{
               active: tabIndex === 0,
             }"
@@ -70,8 +70,8 @@
             Онлайн трансляция
           </li>
           <li
-            v-if="currentBuild.around"
-            @click="tabIndex = 1"
+            v-if="currentBuild.around ? JSON.parse(currentBuild.around).length : false"
+            @click="tabIndexSubmit(1)"
             :class="{
               active: tabIndex === 1,
             }"
@@ -143,7 +143,7 @@
           </li>
           <li
             v-if="JSON.parse(currentBuild['3d']).length"
-            @click="tabIndex = 2"
+            @click="tabIndexSubmit(2)"
             :class="{
               active: tabIndex === 2,
             }"
@@ -174,6 +174,15 @@
             Онлайн трансляция {{ index + 1 }}
           </p>
         </div>
+        <div v-if="tabIndex === 1" class="tabs-show">
+          <p
+            v-for="(item, index) in JSON.parse(currentBuild['around'])"
+            @click="virtualIndex = index"
+            :class="{ active: virtualIndex === index }"
+          >
+            {{item[1]}}
+          </p>
+        </div>
         <div v-if="tabIndex === 2" class="tabs-show">
           <p
             v-for="(item, index) in JSON.parse(currentBuild['3d'])"
@@ -191,7 +200,7 @@
         />
         <iframe
           v-if="currentBuildContent && tabIndex === 1"
-          :src="currentBuildContent"
+          :src="JSON.parse(currentBuildContent)[virtualIndex][0]"
           class="content"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
@@ -276,6 +285,10 @@ export default {
         document.title = `Онлайн-трансляция - ${name}`
       }
     },
+    tabIndexSubmit(index){
+      this.virtualIndex = 0
+      this.tabIndex = index
+    }
   },
   mounted() {
     this.tabIndex = this.$route.hash ? parseInt(this.$route.hash[1]) : 0
