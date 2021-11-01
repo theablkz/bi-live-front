@@ -35,6 +35,20 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     ['@nuxtjs/google-tag-manager', { id: 'GTM-P3DGT3Z' }],
+    [
+      '@nuxtjs/yandex-metrika',
+      {
+        id: '86170511',
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+        // clickmap:true,
+        // useCDN:false,
+        // trackLinks:true,
+        // accurateTrackBounce:true,
+      }
+    ],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
