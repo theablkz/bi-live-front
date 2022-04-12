@@ -12,7 +12,7 @@
         <input type="submit" />
       </form>
     </div>
-    <block-admin v-if="!createModal && !editModal" @create="create" @editBlock="edit" :blocks="builds" />
+    <block-admin v-if="papaRoach && !createModal && !editModal" @create="create" @editBlock="edit" :blocks="builds" />
     <block-admin-create-modal @close=" () => createModal = false" @uploadImage="inputimage" :inputImage="inputimage" @sendNewBlock="sendNewBlock" v-if="createModal" />
     <block-admin-edit-modal @close=" () => editModal = false" @uploadImage="inputimage" @deleteBlock="deleteBlock" :editData="editData" :inputImage="inputimage" @sendEditBlock="sendEditBlock" v-if="editModal"/>
   </div>
